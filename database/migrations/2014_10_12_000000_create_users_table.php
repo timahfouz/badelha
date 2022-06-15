@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('phone')->unique();
             $table->string('email')->unique();
             $table->unsignedBigInteger('image_id')->nullable();
+            $table->double('points')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('firebase')->nullable();
             $table->string('password');
