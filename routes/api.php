@@ -19,8 +19,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['namespace' => 'API\V1', 'prefix' => 'v1'], function() {
-
+    
     Route::post('auth/login', ['as' => 'login', 'uses' => 'AuthController@login']);
     Route::post('auth/register', ['as' => 'register', 'uses' => 'AuthController@register']);
+
+    Route::group(['middleware' => 'api'], function() {
+    
+        Route::get('categories', ['as' => 'categories', 'uses' => 'CategoryController']);
+        Route::get('products', ['as' => 'products', 'uses' => 'ProductController']);
+        Route::apiResource('carts', 'CartController');
+    
+    });
 
 });

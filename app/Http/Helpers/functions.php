@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
@@ -60,7 +61,7 @@ if (!function_exists('resizeImage')) {
             $constraint->aspectRatio();
         })->save($destination.'/'.$fileName);
 
-        return $fileName;
+        return "$path/$fileName";
     }
 }
 
@@ -74,5 +75,14 @@ if (!function_exists('imagesSizes')) {
             [200, 200],
             [300, 300],
         ];
+    }
+}
+
+
+
+
+if (!function_exists('getUser')) {
+    function getUser() {
+        return Auth::guard('api')->user();
     }
 }

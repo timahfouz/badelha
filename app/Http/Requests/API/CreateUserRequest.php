@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\API;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\ShapeRequest;
 
-class CreateUserRequest extends FormRequest
+class CreateUserRequest extends ShapeRequest
 {
     /**
      * Determine if the user is authorized to make this request.
