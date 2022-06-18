@@ -26,10 +26,19 @@ Route::group(['namespace' => 'API\V1', 'prefix' => 'v1'], function() {
     Route::group(['middleware' => 'auth:api'], function() {
         
         Route::get('auth/profile', ['as' => 'profile', 'uses' => 'UserController']);
+        Route::put('auth/update', ['as' => 'profile.update', 'uses' => 'UserController@update']);
         Route::get('categories', ['as' => 'categories', 'uses' => 'CategoryController']);
         Route::get('products', ['as' => 'products', 'uses' => 'ProductController']);
         Route::post('carts', ['as' => 'cart.store', 'uses' => 'CartController']);
         Route::post('checkout', ['as' => 'order.checkout', 'uses' => 'OrderController']);
+        Route::get('orders', ['as' => 'orders.index', 'uses' => 'OrderController@index']);
+        Route::get('orders/{id}', ['as' => 'orders.show', 'uses' => 'OrderController@show'])->where('id','[0-9]+');
+        Route::get('orders/last', ['as' => 'orders.last', 'uses' => 'OrderController@last']);
+        Route::get('settings/{key}', ['as' => 'settings', 'uses' => 'SettingsController']);
+        Route::get('addresses', ['as' => 'addresses.index', 'uses' => 'AddressController@index']);
+        Route::post('addresses', ['as' => 'addresses.store', 'uses' => 'AddressController@store']);
+
+        Route::get('logout', ['as' => 'logout.store', 'uses' => 'AuthController@logout']);
     
     });
 

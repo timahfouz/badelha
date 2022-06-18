@@ -55,6 +55,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Media::class, 'image_id')->withDefault();
     }
 
+    public function addresses()
+    {
+        return $this->hasMany(Address::class, 'user_id');
+    }
+
     // JWT
     public function getJWTIdentifier()
     {

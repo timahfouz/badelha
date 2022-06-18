@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\API\UserResource;
-use Illuminate\Http\Request;
+use App\Http\Requests\API\UpdateUserRequest;
 
 class UserController extends InitController
 {
@@ -19,7 +21,35 @@ class UserController extends InitController
         $user = getUser();
 
         $response = new UserResource($user);
-        
+
         return jsonResponse(200, 'done', $response); 
+    }
+    
+    public function update(UpdateUserRequest $request)
+    {
+        $user = getUser();
+
+        DB::beginTransaction();
+        try {
+            $data = $request->only(['name','email','phone','password','_method']);
+            
+            if($request->hasFile('image')) {
+                $path = resizeImage($request->image, 'uploads', $allSizes=false);
+                $media = $this->pipeline->setModel('Media')->create(['path' => $path]);
+                $data['image_id'] = $media->id;
+            }
+
+            $user->update($data);
+
+            $data = new UserResource($user);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return jsonResponse($e->getCode(), $e->getMessage());
+        }
+        
+        return jsonResponse(201, 'done.', $data); 
     }
 }

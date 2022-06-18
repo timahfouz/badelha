@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\API;
 
-use App\Http\Requests\ShapeRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUserRequest extends ShapeRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,10 @@ class CreateUserRequest extends ShapeRequest
     public function rules()
     {
         return [
-            'name'  => 'required|min:2',
-            'email' => 'required|email|unique:users,email',
-            'phone' => 'required|unique:users,phone',
-            'password' => 'required|min:8|confirmed',
+            'name'  => 'nullable|min:2',
+            'email' => 'nullable|email|unique:users,email,'.getUser()->id,
+            'phone' => 'nullable|unique:users,phone,'.getUser()->id,
+            'password' => 'nullable|min:8|confirmed',
             'image' => 'nullable|image',
         ];
     }
