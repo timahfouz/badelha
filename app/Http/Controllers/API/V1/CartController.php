@@ -15,7 +15,7 @@ class CartController extends InitController
         $this->pipeline->setModel('Cart');
     }
 
-    public function store(CartRequest $request)
+    public function __invoke(CartRequest $request)
     {
         DB::beginTransaction();
         try {

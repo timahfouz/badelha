@@ -11,7 +11,7 @@ class Media extends Model
 
     protected $guarded = [ 'id', ];
 
-    public function realpath()
+    public function realPath()
     {
         return env('APP_URL').$this->path;
     }

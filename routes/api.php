@@ -23,11 +23,13 @@ Route::group(['namespace' => 'API\V1', 'prefix' => 'v1'], function() {
     Route::post('auth/login', ['as' => 'login', 'uses' => 'AuthController@login']);
     Route::post('auth/register', ['as' => 'register', 'uses' => 'AuthController@register']);
 
-    Route::group(['middleware' => 'api'], function() {
-    
+    Route::group(['middleware' => 'auth:api'], function() {
+        
+        Route::get('auth/profile', ['as' => 'profile', 'uses' => 'UserController']);
         Route::get('categories', ['as' => 'categories', 'uses' => 'CategoryController']);
         Route::get('products', ['as' => 'products', 'uses' => 'ProductController']);
-        Route::apiResource('carts', 'CartController');
+        Route::post('carts', ['as' => 'cart.store', 'uses' => 'CartController']);
+        Route::post('checkout', ['as' => 'order.checkout', 'uses' => 'OrderController']);
     
     });
 

@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
+
+    protected $guarded = [ 'id', ];
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id')->withDefault();
+    }
+    
+    public function cart()
+    {
+        return $this->belongsTo(Cart::class, 'cart_id')->withDefault();
+    }
 }
